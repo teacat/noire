@@ -241,6 +241,53 @@ func HSVToRGB(h float64, s float64, v float64) (r float64, g float64, b float64)
 	return
 }
 
+// RGBToHSV 能夠將 RGB 的顏色以有損的方式轉換成 HSV。
+func RGBToHSV(r float64, g float64, b float64) (h float64, s float64, v float64) {
+	r = r / 255
+	g = g / 255
+	b = b / 255
+
+	minValue := math.Min(r, g)
+	minValue = math.Min(minValue, b)
+	maxValue := math.Max(r, g)
+	maxValue = math.Max(maxValue, b)
+
+	delta := maxValue - minValue
+	v = maxValue
+
+	if delta == 0 {
+		h = 0
+		s = 0
+	} else {
+		s = delta / maxValue
+		deltaR := (((maxValue - r) / 6) + (delta / 2)) / delta
+		deltaG := (((maxValue - g) / 6) + (delta / 2)) / delta
+		deltaB := (((maxValue - b) / 6) + (delta / 2)) / delta
+		switch maxValue {
+		case r:
+			h = deltaB - deltaG
+			break
+		case g:
+			h = (1 / 3) + deltaR - deltaB
+			break
+		case b:
+			h = (2 / 3) + deltaG - deltaR
+			break
+		}
+		if h < 0 {
+			h++
+		}
+		if h > 1 {
+			h--
+		}
+
+	}
+	h = math.Round(h * 360)
+	s = math.Round(s*1000) / 10
+	v = math.Round(v*1000) / 10
+	return
+}
+
 // RGBToHex 能夠將 RGB 的顏色轉換成 Hex 十六進制字串（不包含 `#` 井字符號）。
 func RGBToHex(r float64, g float64, b float64) string {
 	h := []byte{uint8(math.Round(r)), uint8(math.Round(g)), uint8(math.Round(b))}
@@ -289,57 +336,28 @@ func RGBToHTML(r float64, g float64, b float64) (h string) {
 	return
 }
 
-// RGBToHSV 能夠將 RGB 的顏色以有損的方式轉換成 HSV。
-func RGBToHSV(r float64, g float64, b float64) (h float64, s float64, v float64) {
-	r = r / 255
-	g = g / 255
-	b = b / 255
+// NewHTML 會初始化一個基於 HTML 的顏色資訊。
+func NewHTML(color string) *Color {
+	r, g, b := HTMLToRGB(color)
+	return newColor(r, g, b, 1)
+}
 
-	minValue := math.Min(r, g)
-	minValue = math.Min(minValue, b)
-	maxValue := math.Max(r, g)
-	maxValue = math.Max(maxValue, b)
-
-	delta := maxValue - minValue
-	v = maxValue
-
-	if delta == 0 {
-		h = 0
-		s = 0
-	} else {
-		s = delta / maxValue
-		deltaR := (((maxValue - r) / 6) + (delta / 2)) / delta
-		deltaG := (((maxValue - g) / 6) + (delta / 2)) / delta
-		deltaB := (((maxValue - b) / 6) + (delta / 2)) / delta
-		switch maxValue {
-		case r:
-			h = deltaB - deltaG
-			break
-		case g:
-			h = (1 / 3) + deltaR - deltaB
-			break
-		case b:
-			h = (2 / 3) + deltaG - deltaR
-			break
-		}
-		if h < 0 {
-			h++
-		}
-		if h > 1 {
-			h--
-		}
-
-	}
-	h = math.Round(h * 360)
-	s = math.Round(s*1000) / 10
-	v = math.Round(v*1000) / 10
-	return
+// NewHTMLA 會初始化一個基於 HTML 且帶有 Alpha 的顏色資訊。
+func NewHTMLA(color string, a float64) *Color {
+	r, g, b := HTMLToRGB(color)
+	return newColor(r, g, b, a)
 }
 
 // NewHex 會初始化一個基於 Hex 的顏色資訊。
 func NewHex(color string) *Color {
 	r, g, b := HexToRGB(color)
 	return newColor(r, g, b, 1)
+}
+
+// NewHexA 會初始化一個基於 Hex 且帶有 Alpha 的顏色資訊。
+func NewHexA(color string, a float64) *Color {
+	r, g, b := HexToRGB(color)
+	return newColor(r, g, b, a)
 }
 
 // NewHSL 會初始化一個基於 HSL 的顏色資訊。
@@ -351,6 +369,18 @@ func NewHSL(h float64, s float64, l float64) *Color {
 // NewHSLA 會初始化一個基於 HSL 且帶有 Alpha 的顏色資訊。
 func NewHSLA(h float64, s float64, l float64, a float64) *Color {
 	r, g, b := HSLToRGB(h, s, l)
+	return newColor(r, g, b, a)
+}
+
+// NewHSV 會初始化一個基於 HSV 的顏色資訊。
+func NewHSV(h float64, s float64, v float64) *Color {
+	r, g, b := HSVToRGB(h, s, v)
+	return newColor(r, g, b, 1)
+}
+
+// NewHSVA 會初始化一個基於 HSV 且帶有 Alpha 的顏色資訊。
+func NewHSVA(h float64, s float64, v float64, a float64) *Color {
+	r, g, b := HSVToRGB(h, s, v)
 	return newColor(r, g, b, a)
 }
 
@@ -545,7 +575,11 @@ func (c *Color) Hex() string {
 	return RGBToHex(c.Red, c.Green, c.Blue)
 }
 
-// HTML 會將目前的顏色轉換成帶 `#` 井字符號的色彩代碼，如果該色彩與某個網頁色彩名稱相等，則會轉換成網頁色彩名稱（如：`red`、`yellow`）
+// HTML 會將目前的顏色轉換成帶 `#` 井字符號的色彩代碼，如果該色彩與某個網頁色彩名稱相等，則會轉換成網頁色彩名稱（如：`red`、`yellow`）。
+// 如果該顏色帶有 Alpha 透明通道，那麼將會轉譯成 `rgba(x, x, x, x)` 的字串格式。
 func (c *Color) HTML() string {
+	if c.Alpha != 1 {
+		return fmt.Sprintf("rgba(%f, %f, %f, %f)", c.Red, c.Green, c.Blue, c.Alpha)
+	}
 	return RGBToHTML(c.Red, c.Green, c.Blue)
 }
