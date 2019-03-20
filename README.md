@@ -1,6 +1,19 @@
 # Noire [![GoDoc](https://godoc.org/github.com/teacat/noire?status.svg)](https://godoc.org/github.com/teacat/noire) [![Coverage Status](https://coveralls.io/repos/github/teacat/noire/badge.svg?branch=master)](https://coveralls.io/github/teacat/noire?branch=master) [![Build Status](https://travis-ci.org/teacat/noire.svg?branch=master)](https://travis-ci.org/teacat/noire) [![Go Report Card](https://goreportcard.com/badge/github.com/teacat/noire)](https://goreportcard.com/report/github.com/teacat/noire)
 
-支援 RGB、HSL、HSV、CMYK、Hex、HTML 顏色代碼進行轉換與顏色（亮度、飽和度…等）編輯的套件。這個套件需要至少 Golang 1.10，因為會用到 [`math.Round`](https://golang.org/pkg/math/#Round) 函式。
+支援 RGB、HSL、HSV、CMYK、Hex、HTML 顏色代碼進行轉換與顏色（亮度、飽和度…等）編輯的套件。
+
+這個套件需要至少 **Go 1.10**，因為會使用到 [`math.Round`](https://golang.org/pkg/math/#Round) 四捨五入函式。
+
+## 色彩演算法
+
+Noire 能夠將下列顏色互相轉換。
+
+* RGB
+* CMYK
+* HSL
+* HSV
+* Hex
+* HTML
 
 ## 效能比較
 
@@ -87,17 +100,6 @@ func main() {
 }
 ```
 
-## 支援色彩演算法
-
-Noire 能夠將下列顏色互相轉換。
-
-* RGB
-* CMYK
-* HSL
-* HSV
-* Hex
-* HTML
-
 ## 函式說明
 
 這裡有些函式無法透過圖表說明他們的用途，但這些你都能夠在超讚的 [GoDoc](https://godoc.org/github.com/teacat/noire) 裡面看到如何使用他們。
@@ -145,8 +147,8 @@ func main() {
 
 ```go
 func main() {
-	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+	c := NewRGB(0, 0, 0)
+	fmt.Println(c.Brighten(0.1).Hex())   // 輸出：1A1A1A
 }
 ```
 
@@ -159,7 +161,7 @@ func main() {
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+	fmt.Println(c.Darken(0.15).Hex())   // 輸出：CB3366
 }
 ```
 
@@ -172,7 +174,7 @@ func main() {
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+	fmt.Println(c.Shade(0.15).Hex())   // 輸出：BA5F7E
 }
 ```
 
@@ -185,7 +187,7 @@ func main() {
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+	fmt.Println(c.Saturate(0.5).Hex())   // 輸出：FF4C88
 }
 ```
 
@@ -198,7 +200,7 @@ func main() {
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+	fmt.Println(c.Desaturate(0.15).Hex())   // 輸出：AE9DA3
 }
 ```
 
@@ -211,7 +213,7 @@ func main() {
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+	fmt.Println(c.Grayscale().Hex())   // 輸出：A5A5A5
 }
 ```
 
@@ -223,8 +225,9 @@ func main() {
 
 ```go
 func main() {
-	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+	c1 := NewHex("F00")
+	c2 := NewHex("00F")
+	fmt.Println(c1.Mix(c2, 0.5).HTML())   // 輸出：Purple
 }
 ```
 
@@ -237,7 +240,7 @@ func main() {
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+	fmt.Println(c.Invert().Hex())   // 輸出：248F6B
 }
 ```
 
@@ -250,7 +253,7 @@ func main() {
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+	fmt.Println(c.Complement().Hex())   // 輸出：70DBB7
 }
 ```
 
@@ -263,7 +266,7 @@ func main() {
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+	fmt.Println(c.Grayscale().Hex())   // 輸出：A5A5A5
 }
 ```
 
@@ -275,8 +278,12 @@ func main() {
 
 ```go
 func main() {
-	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+	c := NewHTML("Green")
+	fmt.Println(c.Foreground().HTML())   // 輸出：White
+	c = NewHTML("Red")
+	fmt.Println(c.Foreground().HTML())   // 輸出：White
+	c = NewHTML("Yellow")
+	fmt.Println(c.Foreground().HTML())   // 輸出：Black
 }
 ```
 
