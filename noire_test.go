@@ -170,10 +170,10 @@ func TestInvert(t *testing.T) {
 	assert.Equal("248F6B", c.Hex())
 }
 
-func LuminanaceWCAG(t *testing.T) {
+func TestLuminanaceWCAG(t *testing.T) {
 	assert := assert.New(t)
 	c := NewRGB(219, 112, 148)
-	assert.Equal(0.29, c.Luminanace())
+	assert.Equal(0.29, c.LuminanaceWCAG())
 }
 
 func TestLuminanace(t *testing.T) {
@@ -287,11 +287,10 @@ func TestHTML(t *testing.T) {
 	assert.Equal("rgba(219.000000, 112.000000, 147.000000, 0.500000)", c.HTML())
 }
 
-//func BenchmarkString(b *testing.B) {
-//	t := New(DefaultConfig())
-//	b.ReportAllocs()
-//	b.ResetTimer()
-//	for n := 0; n < b.N; n++ {
-//		_ = t.Generate().String()
-//	}
-//}
+func BenchmarkString(b *testing.B) {
+	b.ReportAllocs()
+	b.ResetTimer()
+	for n := 0; n < b.N; n++ {
+
+	}
+}
