@@ -1,15 +1,16 @@
-package noire
+package main
 
 import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"testing"
+
+	"github.com/teacat/noire"
 )
 
-func TestColorPlate(t *testing.T) {
+func main() {
 	var c string
-	colors := []*Color{NewHTML("Red"), NewHTML("Orange"), NewHTML("Yellow"), NewHTML("Green"), NewHTML("Blue"), NewHTML("White")}
+	colors := []*noire.Color{noire.NewHTML("Red"), noire.NewHTML("Orange"), noire.NewHTML("Yellow"), noire.NewHTML("Green"), noire.NewHTML("Blue"), noire.NewHTML("White")}
 
 	before := func(fn string) {
 		c += fmt.Sprintf(`<div class="header"></div><div class="section">`)
@@ -35,63 +36,63 @@ func TestColorPlate(t *testing.T) {
 
 	before("Lighten")
 	for i := 0.0; i <= 1; i += 0.2 {
-		h := NewHex("00ADEA").Lighten(i).HTML()
+		h := noire.NewHex("00ADEA").Lighten(i).HTML()
 		do("Lighten", h, i)
 	}
 	after()
 
 	before("Brighten")
 	for i := 0.0; i <= 1; i += 0.2 {
-		h := NewHex("00ADEA").Brighten(i).HTML()
+		h := noire.NewHex("00ADEA").Brighten(i).HTML()
 		do("Brighten", h, i)
 	}
 	after()
 
 	before("Tint")
 	for i := 0.0; i <= 1; i += 0.2 {
-		h := NewHex("00ADEA").Tint(i).HTML()
+		h := noire.NewHex("00ADEA").Tint(i).HTML()
 		do("Tint", h, i)
 	}
 	after()
 
 	before("Darken")
 	for i := 0.0; i <= 1; i += 0.2 {
-		h := NewHex("00ADEA").Darken(i).HTML()
+		h := noire.NewHex("00ADEA").Darken(i).HTML()
 		do("Darken", h, i)
 	}
 	after()
 
 	before("Shade")
 	for i := 0.0; i <= 1; i += 0.2 {
-		h := NewHex("00ADEA").Shade(i).HTML()
+		h := noire.NewHex("00ADEA").Shade(i).HTML()
 		do("Shade", h, i)
 	}
 	after()
 
 	before("Saturate")
 	for i := 0.0; i <= 1; i += 0.2 {
-		h := NewHex("4a5f45").Saturate(i).HTML()
+		h := noire.NewHex("4a5f45").Saturate(i).HTML()
 		do("Saturate", h, i)
 	}
 	after()
 
 	before("Desaturate")
 	for i := 0.0; i <= 1; i += 0.2 {
-		h := NewHex("00ADEA").Desaturate(i).HTML()
+		h := noire.NewHex("00ADEA").Desaturate(i).HTML()
 		do("Desaturate", h, i)
 	}
 	after()
 
 	before("AdjustHue")
 	for i := float64(0); i <= float64(360); i += float64(72) {
-		h := NewHex("00ADEA").AdjustHue(i).HTML()
+		h := noire.NewHex("00ADEA").AdjustHue(i).HTML()
 		do("AdjustHue", h, i)
 	}
 	after()
 
 	before("Mix")
 	for i := 0.0; i <= 1; i += 0.2 {
-		h := NewHex("00ADEA").Mix(NewRGB(255, 0, 0), i).HTML()
+		h := noire.NewHex("00ADEA").Mix(noire.NewRGB(255, 0, 0), i).HTML()
 		do("Mix", h, i)
 	}
 	after()
@@ -124,7 +125,7 @@ func TestColorPlate(t *testing.T) {
 	}
 	after()
 
-	ioutil.WriteFile("./test/index.html", []byte(fmt.Sprintf(`<!DOCTYPE html>
+	ioutil.WriteFile("./test.html", []byte(fmt.Sprintf(`<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
