@@ -75,6 +75,22 @@ func TestRGBToHTML(t *testing.T) {
 	assert.Equal("PaleVioletRed", h)
 }
 
+func TestNewAlpha(t *testing.T) {
+	assert := assert.New(t)
+	c := NewCMYKA(20, 20, 20, 20, 0.5)
+	assert.Equal(0.5, c.Alpha)
+	c = NewHSLA(20, 20, 20, 0.5)
+	assert.Equal(0.5, c.Alpha)
+	c = NewHSVA(20, 20, 20, 0.5)
+	assert.Equal(0.5, c.Alpha)
+	c = NewHTMLA("Red", 0.5)
+	assert.Equal(0.5, c.Alpha)
+	c = NewHexA("000", 0.5)
+	assert.Equal(0.5, c.Alpha)
+	c = NewRGBA(20, 20, 20, 0.5)
+	assert.Equal(0.5, c.Alpha)
+}
+
 func TestMix(t *testing.T) {
 	assert := assert.New(t)
 	c1 := NewHex("F00")
@@ -102,9 +118,16 @@ func TestLightness(t *testing.T) {
 
 func TestAdjustHue(t *testing.T) {
 	assert := assert.New(t)
-	c := NewRGB(219, 112, 148)
-	c = c.AdjustHue(30)
+	c := NewRGB(219, 112, 148).AdjustHue(30)
 	assert.Equal("DB8270", c.Hex())
+	c = NewRGB(219, 112, 148).AdjustHue(360)
+	assert.Equal("DB7094", c.Hex())
+	c = NewRGB(219, 112, 148).AdjustHue(480)
+	assert.Equal("94DB70", c.Hex())
+	c = NewRGB(219, 112, 148).AdjustHue(720)
+	assert.Equal("DB7094", c.Hex())
+	c = NewRGB(219, 112, 148).AdjustHue(-720)
+	assert.Equal("DB7094", c.Hex())
 }
 
 func TestLighten(t *testing.T) {
@@ -180,6 +203,22 @@ func TestLuminanace(t *testing.T) {
 	assert := assert.New(t)
 	c := NewRGB(219, 112, 148)
 	assert.Equal(137.35, c.Luminanace())
+}
+
+func TestForeground(t *testing.T) {
+	assert := assert.New(t)
+	c := NewHTML("Green")
+	assert.Equal("White", c.Foreground().HTML())
+	c = NewHTML("Red")
+	assert.Equal("White", c.Foreground().HTML())
+	c = NewHTML("Yellow")
+	assert.Equal("Black", c.Foreground().HTML())
+}
+
+func TestBrighten(t *testing.T) {
+	assert := assert.New(t)
+	c := NewRGB(0, 0, 0)
+	assert.Equal("1A1A1A", c.Brighten(0.1).Hex())
 }
 
 func TestContrast(t *testing.T) {

@@ -590,6 +590,8 @@ func (c *Color) Foreground() *Color {
 }
 
 // Brighten 會以小數點百分比率（`0.5` 即為 `50%`）將顏色加亮。
+//
+// 參考連結：https://github.com/ozdemirburak/iris
 func (c *Color) Brighten(percent float64) *Color {
 	percent *= -100
 	r := math.Max(0, math.Min(255, c.Red-math.Round(255*(percent/100))))
