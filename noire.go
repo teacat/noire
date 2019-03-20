@@ -199,7 +199,7 @@ func HSVToRGB(h float64, s float64, v float64) (r float64, g float64, b float64)
 	if s == 0 {
 		r = v * 255
 		g = v * 255
-		v = v * 255
+		b = v * 255
 	} else {
 		localH := h * 6
 		localI := math.Floor(localH)
