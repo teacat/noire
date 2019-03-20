@@ -100,7 +100,7 @@ Noire 能夠將下列顏色互相轉換。
 
 ## 函式說明
 
-這裡有些函式無法透過圖表說明他們的用途。
+這裡有些函式無法透過圖表說明他們的用途，但這些你都能夠在超讚的 [GoDoc](https://godoc.org/github.com/teacat/noire) 裡面看到如何使用他們。
 
 * `Hue`：取得基於 HSL 演算法的色相角度值。
 * `Saturation`：會取得基於 HSL 演算法的飽和百分比。
@@ -117,11 +117,25 @@ Noire 能夠將下列顏色互相轉換。
 
 以 HSL 的模式提高顏色的亮度，但這有可能會過於明亮。
 
+```go
+func main() {
+	c := NewRGB(219, 112, 148)
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+}
+```
+
 ### 明亮（Brighten）
 
 ![顏色示意圖](./assets/brighten.png)
 
 以 RGB 的模式提高顏色的亮度。
+
+```go
+func main() {
+	c := NewRGB(219, 112, 148)
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+}
+```
 
 ### 混和加亮（Tint）
 
@@ -129,11 +143,25 @@ Noire 能夠將下列顏色互相轉換。
 
 將目前顏色混上白色以達到最佳平衡與飽和來提高顏色亮度。
 
+```go
+func main() {
+	c := NewRGB(219, 112, 148)
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+}
+```
+
 ### 調暗（Darken）
 
 ![顏色示意圖](./assets/darken.png)
 
 以 HSL 的模式降低顏色的亮度，但這有可能會過於暗沉。
+
+```go
+func main() {
+	c := NewRGB(219, 112, 148)
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+}
+```
 
 ### 混和調暗（Shade）
 
@@ -141,11 +169,25 @@ Noire 能夠將下列顏色互相轉換。
 
 將目前顏色混上黑色以達到最佳平衡與飽和來降低顏色亮度。
 
+```go
+func main() {
+	c := NewRGB(219, 112, 148)
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+}
+```
+
 ### 提高飽和度（Saturate）
 
 ![顏色示意圖](./assets/saturate.png)
 
 以 HSL 的模式提高顏色的飽和度。
+
+```go
+func main() {
+	c := NewRGB(219, 112, 148)
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+}
+```
 
 ### 降低飽和度（Desaturate）
 
@@ -153,11 +195,25 @@ Noire 能夠將下列顏色互相轉換。
 
 以 HSL 的模式降低顏色的飽和度。
 
+```go
+func main() {
+	c := NewRGB(219, 112, 148)
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+}
+```
+
 ### 更改色相角度（AdjustHue）
 
 ![顏色示意圖](./assets/adjust-hue.png)
 
 以 HSL 的模式旋轉色相角度，當超過 360 度時會繼續以順時針旋轉。
+
+```go
+func main() {
+	c := NewRGB(219, 112, 148)
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+}
+```
 
 ### 混合（Mix）
 
@@ -165,11 +221,25 @@ Noire 能夠將下列顏色互相轉換。
 
 將顏色與另一個顏色混合，並且自訂第二顏色的混色權重。
 
+```go
+func main() {
+	c := NewRGB(219, 112, 148)
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+}
+```
+
 ### 反相色（Invert）
 
 ![顏色示意圖](./assets/invert.png)
 
 取得 RGB 顏色在絕對座標上的相反位置，並將整個顏色反轉（不是互補色但趨近於）。
+
+```go
+func main() {
+	c := NewRGB(219, 112, 148)
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+}
+```
 
 ### 互補色（Complement）
 
@@ -177,17 +247,38 @@ Noire 能夠將下列顏色互相轉換。
 
 取得顏色的互補色（色相環的對面色），相當於 `AdjustHue(180)`。
 
+```go
+func main() {
+	c := NewRGB(219, 112, 148)
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+}
+```
+
 ### 灰階（Grayscale）
 
 ![顏色示意圖](./assets/grayscale.png)
 
 將顏色轉換成灰階色調，相當於 `Desaturate(1)`。
 
+```go
+func main() {
+	c := NewRGB(219, 112, 148)
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+}
+```
+
 ### 前景色（Foreground）
 
 ![顏色示意圖](./assets/foreground.png)
 
 取得基於目前顏色流明度而推薦的前景文字顏色（黑或白），越暗的背景就會採用白色文字，反之亦然。
+
+```go
+func main() {
+	c := NewRGB(219, 112, 148)
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+}
+```
 
 ## 可參考文件
 
