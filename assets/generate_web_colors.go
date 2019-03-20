@@ -8,32 +8,45 @@ import (
 	"github.com/teacat/noire"
 )
 
-func main() {
-	var c string
-	colors := []*noire.Color{noire.NewHTML("Red"), noire.NewHTML("Orange"), noire.NewHTML("Yellow"), noire.NewHTML("Green"), noire.NewHTML("Blue"), noire.NewHTML("White")}
+var content string
+var colors = []*noire.Color{
+	noire.NewHTML("Red"),
+	noire.NewHTML("Orange"),
+	noire.NewHTML("Yellow"),
+	noire.NewHTML("Green"),
+	noire.NewHTML("Blue"),
+	noire.NewHTML("White"),
+}
 
-	before := func(fn string) {
-		c += fmt.Sprintf(`<div class="header"></div><div class="section">`)
+func main() {
+	generate()
+}
+
+func before(fn string) {
+	content += fmt.Sprintf(`<div class="header"></div><div class="section">`)
+}
+
+func after() {
+	content += fmt.Sprintf(`</div>`)
+}
+
+func do(fn string, a string, v interface{}) {
+	var d string
+	switch b := v.(type) {
+	case string:
+		d = b
+		break
+	case float64:
+		d = fmt.Sprintf("%.1f", b)
+		break
 	}
-	after := func() {
-		c += fmt.Sprintf(`</div>`)
-	}
-	do := func(fn string, a string, v interface{}) {
-		var d string
-		switch b := v.(type) {
-		case string:
-			d = b
-			break
-		case float64:
-			d = fmt.Sprintf("%.1f", b)
-			break
-		}
-		c += fmt.Sprintf(`<div class="group">
+	content += fmt.Sprintf(`<div class="group">
 						<div class="color" style="background-color: %s"></div>
 						<div class="label">%s(%s)</div>
 					</div>`, a, fn, d)
-	}
+}
 
+func generate() {
 	before("Lighten")
 	for i := 0.0; i <= 1; i += 0.2 {
 		h := noire.NewHex("00ADEA").Lighten(i).HTML()
@@ -173,5 +186,5 @@ func main() {
 <body>
 %s
 </body>
-</html>`, c)), os.ModePerm)
+</html>`, content)), os.ModePerm)
 }
