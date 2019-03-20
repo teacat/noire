@@ -134,8 +134,8 @@ func main() {
 
 ```go
 func main() {
-	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
+	c := NewRGB(0, 0, 0)
+	fmt.Println(c.Brighten(0.1).Hex())   // 輸出：1A1A1A
 }
 ```
 
@@ -148,7 +148,7 @@ func main() {
 ```go
 func main() {
 	c := NewRGB(0, 0, 0)
-	fmt.Println(c.Brighten(0.1).Hex())   // 輸出：1A1A1A
+	fmt.Println(c.Tint(0.1).Hex())   // 輸出：1A1A1A
 }
 ```
 
