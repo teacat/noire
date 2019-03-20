@@ -213,7 +213,7 @@ func main() {
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Grayscale().Hex())   // 輸出：A5A5A5
+	fmt.Println(c.AdjustHue(30).Hex())   // 輸出：DB8270
 }
 ```
 
