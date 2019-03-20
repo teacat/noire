@@ -81,7 +81,7 @@ $ go get github.com/teacat/noire
 
 ## 使用方式
 
-透過 `noire.NewRGB`（或是 `NewHex`…等）來初始化一個顏色，並且透過 `Lighten` 或 `Tint` 等函式開始編輯該色彩。
+透過 `noire.NewRGB`（或是 `NewHex` 等）來初始化一個顏色，並且透過 `Lighten` 或 `Tint` 等函式開始編輯該色彩。
 
 ```go
 package main
