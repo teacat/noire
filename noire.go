@@ -260,10 +260,8 @@ func RGBToHSV(r float64, g float64, b float64) (h float64, s float64, v float64)
 	g = g / 255
 	b = b / 255
 
-	minValue := math.Min(r, g)
-	minValue = math.Min(minValue, b)
-	maxValue := math.Max(r, g)
-	maxValue = math.Max(maxValue, b)
+	minValue := math.Min(math.Min(r, g), b)
+	maxValue := math.Max(math.Max(r, g), b)
 
 	delta := maxValue - minValue
 	v = maxValue
@@ -281,10 +279,10 @@ func RGBToHSV(r float64, g float64, b float64) (h float64, s float64, v float64)
 			h = deltaB - deltaG
 			break
 		case g:
-			h = (1 / 3) + deltaR - deltaB
+			h = (float64(1) / float64(3)) + deltaR - deltaB
 			break
 		case b:
-			h = (2 / 3) + deltaG - deltaR
+			h = (float64(2) / float64(3)) + deltaG - deltaR
 			break
 		}
 		if h < 0 {
@@ -293,8 +291,8 @@ func RGBToHSV(r float64, g float64, b float64) (h float64, s float64, v float64)
 		if h > 1 {
 			h--
 		}
-
 	}
+
 	h = math.Round(h * 360)
 	s = math.Round(s*1000) / 10
 	v = math.Round(v*1000) / 10

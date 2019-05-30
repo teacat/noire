@@ -41,6 +41,16 @@ func TestHSVToRGB(t *testing.T) {
 	assert.Equal([]float64{219, 219, 0}, []float64{h, s, v})
 }
 
+func TestHSVToHSV(t *testing.T) {
+	assert := assert.New(t)
+	c := NewHSV(219, 65, 100)
+	h, s, v := c.HSV()
+	assert.Equal([]float64{219, 65.1, 100}, []float64{h, s, v})
+	c = NewHSV(299, 100, 100)
+	h, s, v = c.HSV()
+	assert.Equal([]float64{299, 100, 100}, []float64{h, s, v})
+}
+
 func TestRGBToHSV(t *testing.T) {
 	assert := assert.New(t)
 	r, g, b := RGBToHSV(219, 112, 148)
