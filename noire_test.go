@@ -38,7 +38,7 @@ func TestHSVToRGB(t *testing.T) {
 	h, s, v := HSVToRGB(340, 48.9, 85.9)
 	assert.Equal([]float64{219, 112, 148}, []float64{h, s, v})
 	h, s, v = HSVToRGB(340, 0, 85.9)
-	assert.Equal([]float64{219, 219, 0}, []float64{h, s, v})
+	assert.Equal([]float64{219, 219, 219}, []float64{h, s, v})
 }
 
 func TestHSVToHSV(t *testing.T) {

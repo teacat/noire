@@ -190,65 +190,39 @@ func HSLToRGB(h float64, s float64, l float64) (r float64, g float64, b float64)
 
 // HSVToRGB 能夠將 HSV 的顏色以有損的方式轉換成 RGB。
 //
-// 參考來源：https://www.ginifab.com.tw/tools/colors/js/colorconverter.js
+// 參考來源：https://www.rapidtables.com/convert/color/hsv-to-rgb.html
 func HSVToRGB(h float64, s float64, v float64) (r float64, g float64, b float64) {
-	h = h / 360
 	s = s / 100
 	v = v / 100
-
-	if s == 0 {
-		r = v * 255
-		g = v * 255
-		//b = v * 255
+	c := v * s
+	hh := h / 60
+	x := c * (1 - math.Abs(math.Mod(hh, 2)-1))
+	if hh >= 0 && hh < 1 {
+		r = c
+		g = x
+	} else if hh >= 1 && hh < 2 {
+		r = x
+		g = c
+	} else if hh >= 2 && hh < 3 {
+		g = c
+		b = x
+	} else if hh >= 3 && hh < 4 {
+		g = x
+		b = c
+	} else if hh >= 4 && hh < 5 {
+		r = x
+		b = c
 	} else {
-		localH := h * 6
-		localI := math.Floor(localH)
-		local1 := v * (1 - s)
-		local2 := v * (1 - s*(localH-localI))
-		local3 := v * (1 - s*(1-(localH-localI)))
-
-		var localR float64
-		var localG float64
-		var localB float64
-		switch localI {
-		case 0:
-			localR = v
-			localG = local3
-			localB = local1
-			break
-		case 1:
-			localR = local2
-			localG = v
-			localB = local1
-			break
-		case 2:
-			localR = local1
-			localG = v
-			localB = local3
-			break
-		case 3:
-			localR = local1
-			localG = local2
-			localB = v
-			break
-		case 4:
-			localR = local3
-			localG = local1
-			localB = v
-			break
-		default:
-			localR = v
-			localG = local1
-			localB = local2
-			break
-		}
-		r = localR * 255
-		g = localG * 255
-		b = localB * 255
+		r = c
+		b = x
 	}
-	r = math.Round(r)
-	g = math.Round(g)
-	b = math.Round(b)
+	m := v - c
+	r += m
+	g += m
+	b += m
+	r = math.Round(r * 255)
+	g = math.Round(g * 255)
+	b = math.Round(b * 255)
 	return
 }
 
