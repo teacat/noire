@@ -16,7 +16,7 @@ type Color struct {
 }
 
 // newColor 會回傳一個新的顏色，並且避免 RGB 超過指定範圍。
-func newColor(r float64, g float64, b float64, a float64) *Color {
+func newColor(r float64, g float64, b float64, a float64) Color {
 	if r > 255 {
 		r = 255
 	} else if r < 0 {
@@ -37,7 +37,7 @@ func newColor(r float64, g float64, b float64, a float64) *Color {
 	} else if a < 0 {
 		a = 0
 	}
-	return &Color{
+	return Color{
 		Red:   r,
 		Green: g,
 		Blue:  b,
@@ -326,77 +326,77 @@ func RGBToHTML(r float64, g float64, b float64) (h string) {
 }
 
 // NewHTML 會初始化一個基於 HTML 的顏色資訊。
-func NewHTML(color string) *Color {
+func NewHTML(color string) Color {
 	r, g, b := HTMLToRGB(color)
 	return newColor(r, g, b, 1)
 }
 
 // NewHTMLA 會初始化一個基於 HTML 且帶有 Alpha 的顏色資訊。
-func NewHTMLA(color string, a float64) *Color {
+func NewHTMLA(color string, a float64) Color {
 	r, g, b := HTMLToRGB(color)
 	return newColor(r, g, b, a)
 }
 
 // NewHex 會初始化一個基於 Hex 的顏色資訊。
-func NewHex(color string) *Color {
+func NewHex(color string) Color {
 	r, g, b := HexToRGB(color)
 	return newColor(r, g, b, 1)
 }
 
 // NewHexA 會初始化一個基於 Hex 且帶有 Alpha 的顏色資訊。
-func NewHexA(color string, a float64) *Color {
+func NewHexA(color string, a float64) Color {
 	r, g, b := HexToRGB(color)
 	return newColor(r, g, b, a)
 }
 
 // NewHSL 會初始化一個基於 HSL 的顏色資訊。
-func NewHSL(h float64, s float64, l float64) *Color {
+func NewHSL(h float64, s float64, l float64) Color {
 	r, g, b := HSLToRGB(h, s, l)
 	return newColor(r, g, b, 1)
 }
 
 // NewHSLA 會初始化一個基於 HSL 且帶有 Alpha 的顏色資訊。
-func NewHSLA(h float64, s float64, l float64, a float64) *Color {
+func NewHSLA(h float64, s float64, l float64, a float64) Color {
 	r, g, b := HSLToRGB(h, s, l)
 	return newColor(r, g, b, a)
 }
 
 // NewHSV 會初始化一個基於 HSV 的顏色資訊。
-func NewHSV(h float64, s float64, v float64) *Color {
+func NewHSV(h float64, s float64, v float64) Color {
 	r, g, b := HSVToRGB(h, s, v)
 	return newColor(r, g, b, 1)
 }
 
 // NewHSVA 會初始化一個基於 HSV 且帶有 Alpha 的顏色資訊。
-func NewHSVA(h float64, s float64, v float64, a float64) *Color {
+func NewHSVA(h float64, s float64, v float64, a float64) Color {
 	r, g, b := HSVToRGB(h, s, v)
 	return newColor(r, g, b, a)
 }
 
 // NewRGB 會初始化一個基於 RGB 的顏色資訊。
-func NewRGB(r float64, g float64, b float64) *Color {
+func NewRGB(r float64, g float64, b float64) Color {
 	return newColor(r, g, b, 1)
 }
 
 // NewRGBA 會初始化一個基於 RGB 且帶有 Alpha 的顏色資訊。
-func NewRGBA(r float64, g float64, b float64, a float64) *Color {
+func NewRGBA(r float64, g float64, b float64, a float64) Color {
 	return newColor(r, g, b, a)
 }
 
 // NewCMYK 會初始化一個基於 CMYK 的顏色資訊。
-func NewCMYK(c float64, m float64, y float64, k float64) *Color {
+func NewCMYK(c float64, m float64, y float64, k float64) Color {
 	r, g, b := CMYKToRGB(c, m, y, k)
 	return newColor(r, g, b, 1)
 }
 
 // NewCMYKA 會初始化一個基於 CMYK 且帶有 Alpha 的顏色資訊。
-func NewCMYKA(c float64, m float64, y float64, k float64, a float64) *Color {
+func NewCMYKA(c float64, m float64, y float64, k float64, a float64) Color {
 	r, g, b := CMYKToRGB(c, m, y, k)
 	return newColor(r, g, b, a)
 }
 
 // Mix 會將傳入的兩個顏色混合在一起，並且透過權重表示後者混入顏色的佔比（`0.5` 即為 `50%`）。
-func (c *Color) Mix(color *Color, weight float64) *Color {
+func (c Color) Mix(color Color, weight float64) Color {
 	oWeight := 1 - weight
 	r := math.Round(oWeight*c.Red + weight*color.Red)
 	g := math.Round(oWeight*c.Green + weight*color.Green)
@@ -406,25 +406,25 @@ func (c *Color) Mix(color *Color, weight float64) *Color {
 }
 
 // Hue 會取得基於 HSL 演算法的色相角度值。
-func (c *Color) Hue() float64 {
+func (c Color) Hue() float64 {
 	h, _, _ := c.HSL()
 	return h
 }
 
 // Saturation 會取得基於 HSL 演算法的飽和百分比。
-func (c *Color) Saturation() float64 {
+func (c Color) Saturation() float64 {
 	_, s, _ := c.HSL()
 	return s
 }
 
 // Lightness 會取得基於 HSL 演算法的明亮百分比。
-func (c *Color) Lightness() float64 {
+func (c Color) Lightness() float64 {
 	_, _, l := c.HSL()
 	return l
 }
 
 // AdjustHue 會以角度旋轉基於 HSL 演算法的色相角度。
-func (c *Color) AdjustHue(degrees float64) *Color {
+func (c Color) AdjustHue(degrees float64) Color {
 	h, s, l := c.HSL()
 	h += degrees
 	for {
@@ -442,7 +442,7 @@ func (c *Color) AdjustHue(degrees float64) *Color {
 }
 
 // Lighten 會以小數點百分比率（`0.5` 即為 `50%`）將基於 HSL 演算法的亮度提高。
-func (c *Color) Lighten(percent float64) *Color {
+func (c Color) Lighten(percent float64) Color {
 	percent = percent * 100
 	h, s, l := c.HSL()
 	l += percent
@@ -454,7 +454,7 @@ func (c *Color) Lighten(percent float64) *Color {
 }
 
 // Darken 會以小數點百分比率（`0.5` 即為 `50%`）將基於 HSL 演算法的亮度降低。
-func (c *Color) Darken(percent float64) *Color {
+func (c Color) Darken(percent float64) Color {
 	percent = percent * 100
 	h, s, l := c.HSL()
 	l -= percent
@@ -466,7 +466,7 @@ func (c *Color) Darken(percent float64) *Color {
 }
 
 // Saturate 會以小數點百分比率（`0.5` 即為 `50%`）將基於 HSL 演算法的飽和度提高。
-func (c *Color) Saturate(percent float64) *Color {
+func (c Color) Saturate(percent float64) Color {
 	percent = percent * 100
 	h, s, l := c.HSL()
 	s += percent
@@ -478,7 +478,7 @@ func (c *Color) Saturate(percent float64) *Color {
 }
 
 // Desaturate 會以小數點百分比率（`0.5` 即為 `50%`）將基於 HSL 演算法的飽和度降低。
-func (c *Color) Desaturate(percent float64) *Color {
+func (c Color) Desaturate(percent float64) Color {
 	percent = percent * 100
 	h, s, l := c.HSL()
 	s -= percent
@@ -490,27 +490,27 @@ func (c *Color) Desaturate(percent float64) *Color {
 }
 
 // Grayscale 會將顏色轉換成灰階色調，相當於 `Desaturate(1)`。
-func (c *Color) Grayscale() *Color {
+func (c Color) Grayscale() Color {
 	return c.Desaturate(1)
 }
 
 // Complement 會取得顏色的互補色（色相環的對面色），相當於 `AdjustHue(180)`。
-func (c *Color) Complement() *Color {
+func (c Color) Complement() Color {
 	return c.AdjustHue(180)
 }
 
 // Tint 會以小數點百分比率（`0.5` 即為 `50%`）將顏色盡可能地保持原色調的方式加亮，相當於基於白色的 `Mix`。
-func (c *Color) Tint(percent float64) *Color {
+func (c Color) Tint(percent float64) Color {
 	return c.Mix(newColor(255, 255, 255, c.Alpha), percent)
 }
 
 // Shade 會以小數點百分比率（`0.5` 即為 `50%`）將顏色盡可能地保持原色調的方式變暗，相當於基於黑色的 `Mix`。
-func (c *Color) Shade(percent float64) *Color {
+func (c Color) Shade(percent float64) Color {
 	return c.Mix(newColor(0, 0, 0, c.Alpha), percent)
 }
 
 // Invert 會取得 RGB 顏色在絕對座標上的相反位置，並將整個顏色反轉（不是互補色但趨近於）。
-func (c *Color) Invert() *Color {
+func (c Color) Invert() Color {
 	r, g, b := c.RGB()
 	r = 255 - r
 	g = 255 - g
@@ -523,7 +523,7 @@ func (c *Color) Invert() *Color {
 // 參考連結：https://www.w3.org/TR/WCAG20-TECHS/G17.html#G17-tests
 //
 // 參考連結：https://medium.com/dev-channel/using-sass-to-automatically-pick-text-colors-4ba7645d2796
-func (c *Color) LuminanaceWCAG() float64 {
+func (c Color) LuminanaceWCAG() float64 {
 	rgb := []float64{c.Red, c.Green, c.Blue}
 	for k, v := range rgb {
 		v /= 255
@@ -545,14 +545,14 @@ func (c *Color) LuminanaceWCAG() float64 {
 // 參考連結：https://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color
 //
 // 參考連結：https://stackoverflow.com/questions/3116260/given-a-background-color-how-to-get-a-foreground-color-that-makes-it-readable-o
-func (c *Color) Luminanace() float64 {
+func (c Color) Luminanace() float64 {
 	v := 0.2126*c.Red + 0.7152*c.Green + 0.0722*c.Blue
 	return math.Round(v*100) / 100
 }
 
 // Foreground 能夠取得基於目前顏色流明度而推薦的前景文字顏色（黑或白），
 // 越暗的背景就會採用白色文字，反之亦然。
-func (c *Color) Foreground() *Color {
+func (c Color) Foreground() Color {
 	white := NewRGB(255, 255, 255)
 	black := NewRGB(0, 0, 0)
 	if c.Luminanace() < 140 {
@@ -564,7 +564,7 @@ func (c *Color) Foreground() *Color {
 // Brighten 會以小數點百分比率（`0.5` 即為 `50%`）將顏色加亮。
 //
 // 參考連結：https://github.com/ozdemirburak/iris
-func (c *Color) Brighten(percent float64) *Color {
+func (c Color) Brighten(percent float64) Color {
 	percent *= -100
 	r := math.Max(0, math.Min(255, c.Red-math.Round(255*(percent/100))))
 	g := math.Max(0, math.Min(255, c.Green-math.Round(255*(percent/100))))
@@ -573,7 +573,7 @@ func (c *Color) Brighten(percent float64) *Color {
 }
 
 // Contrast 會透過 WCAG 流明度演算法算出與指定顏色的對比度。
-func (c *Color) Contrast(color *Color) float64 {
+func (c Color) Contrast(color Color) float64 {
 	c1 := c.LuminanaceWCAG() + 0.05
 	c2 := color.LuminanaceWCAG() + 0.05
 	v := math.Max(c1, c2) / math.Min(c1, c2)
@@ -581,61 +581,61 @@ func (c *Color) Contrast(color *Color) float64 {
 }
 
 // IsLight 會表示此顏色是否為亮色，但有些時候這可能與肉眼所見的不相符。
-func (c *Color) IsLight() bool {
+func (c Color) IsLight() bool {
 	darkness := 1 - (0.299*c.Red+0.587*c.Green+0.114*c.Blue)/255
 	return darkness < 0.5
 }
 
 // IsDark 會表示此顏色是否為暗色，但有些時候這可能與肉眼所見的不相符。
-func (c *Color) IsDark() bool {
+func (c Color) IsDark() bool {
 	return !c.IsLight()
 }
 
 // HSV 會將目前的顏色以 HSV 格式回傳。
-func (c *Color) HSV() (float64, float64, float64) {
+func (c Color) HSV() (float64, float64, float64) {
 	return RGBToHSV(c.Red, c.Green, c.Blue)
 }
 
 // HSVA 會將目前的顏色以 HSVA 格式回傳。
-func (c *Color) HSVA() (float64, float64, float64, float64) {
+func (c Color) HSVA() (float64, float64, float64, float64) {
 	h, s, v := RGBToHSV(c.Red, c.Green, c.Blue)
 	return h, s, v, c.Alpha
 }
 
 // HSL 會將目前的顏色以 HSL 格式回傳。
-func (c *Color) HSL() (float64, float64, float64) {
+func (c Color) HSL() (float64, float64, float64) {
 	return RGBToHSL(c.Red, c.Green, c.Blue)
 }
 
 // HSLA 會將目前的顏色以 HSLA 格式回傳。
-func (c *Color) HSLA() (float64, float64, float64, float64) {
+func (c Color) HSLA() (float64, float64, float64, float64) {
 	h, s, l := RGBToHSL(c.Red, c.Green, c.Blue)
 	return h, s, l, c.Alpha
 }
 
 // RGB 會將目前的顏色以 RGB 格式回傳。
-func (c *Color) RGB() (float64, float64, float64) {
+func (c Color) RGB() (float64, float64, float64) {
 	return c.Red, c.Green, c.Blue
 }
 
 // RGBA 會將目前的顏色以 RGBA 格式回傳。
-func (c *Color) RGBA() (float64, float64, float64, float64) {
+func (c Color) RGBA() (float64, float64, float64, float64) {
 	return c.Red, c.Green, c.Blue, c.Alpha
 }
 
 // CMYK 會將目前的顏色以 CMYK 格式回傳。
-func (c *Color) CMYK() (float64, float64, float64, float64) {
+func (c Color) CMYK() (float64, float64, float64, float64) {
 	return RGBToCMYK(c.Red, c.Green, c.Blue)
 }
 
 // Hex 會將目前的顏色以 Hex 十六進制字串回傳（不帶有 `#` 井字符號）。
-func (c *Color) Hex() string {
+func (c Color) Hex() string {
 	return RGBToHex(c.Red, c.Green, c.Blue)
 }
 
 // HTML 會將目前的顏色轉換成帶 `#` 井字符號的色彩代碼，如果該色彩與某個網頁色彩名稱相等，則會轉換成網頁色彩名稱（如：`red`、`yellow`）。
 // 如果該顏色帶有 Alpha 透明通道，那麼將會轉譯成 `rgba(x, x, x, x)` 的字串格式。
-func (c *Color) HTML() string {
+func (c Color) HTML() string {
 	if c.Alpha != 1 {
 		return fmt.Sprintf("rgba(%f, %f, %f, %f)", c.Red, c.Green, c.Blue, c.Alpha)
 	}
