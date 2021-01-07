@@ -1,4 +1,4 @@
-# Noire [![GoDoc](https://godoc.org/github.com/teacat/noire?status.svg)](https://godoc.org/github.com/teacat/noire) [![Coverage Status](https://coveralls.io/repos/github/teacat/noire/badge.svg?branch=master#1)](https://coveralls.io/github/teacat/noire?branch=master) [![Build Status](https://travis-ci.org/teacat/noire.svg?branch=master#1)](https://travis-ci.org/teacat/noire) [![Go Report Card](https://goreportcard.com/badge/github.com/teacat/noire#1)](https://goreportcard.com/report/github.com/teacat/noire)
+# Noire [![GoDoc](https://godoc.org/github.com/teacat/noire?status.svg)](https://godoc.org/github.com/teacat/noire) [![Coverage Status](https://coveralls.io/repos/github/teacat/noire/badge.svg?branch=master#1)](https://coveralls.io/github/teacat/noire?branch=master) [![Build Status](https://travis-ci.com/teacat/noire.svg?branch=master#1)](https://travis-ci.org/teacat/noire) [![Go Report Card](https://goreportcard.com/badge/github.com/teacat/noire#1)](https://goreportcard.com/report/github.com/teacat/noire)
 
 A color library which supports converting between the RGB, HSL, HSV, CMYK, Hex, HTML and some additional functions (tint, saturation).
 
