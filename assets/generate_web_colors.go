@@ -9,7 +9,7 @@ import (
 )
 
 var content string
-var colors = []*noire.Color{
+var colors = []noire.Color{
 	noire.NewHTML("Red"),
 	noire.NewHTML("Orange"),
 	noire.NewHTML("Yellow"),
