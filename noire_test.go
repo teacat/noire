@@ -335,11 +335,3 @@ func TestHTML(t *testing.T) {
 	c.Alpha = 0.5
 	assert.Equal("rgba(219.000000, 112.000000, 147.000000, 0.500000)", c.HTML())
 }
-
-func BenchmarkString(b *testing.B) {
-	b.ReportAllocs()
-	b.ResetTimer()
-	for n := 0; n < b.N; n++ {
-
-	}
-}
