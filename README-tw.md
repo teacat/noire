@@ -1,12 +1,12 @@
 # Noire [![GoDoc](https://godoc.org/github.com/teacat/noire?status.svg)](https://godoc.org/github.com/teacat/noire) [![Coverage Status](https://coveralls.io/repos/github/teacat/noire/badge.svg?branch=master#1)](https://coveralls.io/github/teacat/noire?branch=master) [![Build Status](https://travis-ci.org/teacat/noire.svg?branch=master#1)](https://travis-ci.org/teacat/noire) [![Go Report Card](https://goreportcard.com/badge/github.com/teacat/noire#1)](https://goreportcard.com/report/github.com/teacat/noire)
 
-A color library which supports converting between the RGB, HSL, HSV, CMYK, Hex, HTML and some additional functions (tint, saturation).
+支援 RGB、HSL、HSV、CMYK、Hex、HTML 顏色代碼進行轉換與顏色（亮度、飽和度…等）編輯的套件。
 
-Requires atleast **Go 1.10** version due to the `math.Round`(https://golang.org/pkg/math/#Round) function call.
+這個套件需要至少 **Go 1.10**，因為會使用到 [`math.Round`](https://golang.org/pkg/math/#Round) 四捨五入函式。
 
-## Supported colors
+## 色彩演算法
 
-Noire is able to convert the colors between:
+Noire 能夠將下列顏色互相轉換。
 
 -   RGB
 -   CMYK
@@ -15,10 +15,10 @@ Noire is able to convert the colors between:
 -   Hex
 -   HTML
 
-## Benchmark
+## 效能比較
 
 ```
-Specification:
+測試規格：
 4.2 GHz Intel Core i7 (8750H)
 32 GB 2666 MHz DDR4
 
@@ -71,17 +71,17 @@ ok  	github.com/teacat/noire	67.640s
 Success: Benchmarks passed.
 ```
 
-## Installation
+## 安裝方式
 
-To install Noire by simply typing `go get` in the terminal.
+打開終端機並且透過 `go get` 安裝此套件即可。
 
 ```bash
 $ go get github.com/teacat/noire
 ```
 
-## Usage
+## 使用方式
 
-Initialize a new color with `noire.NewRGB` (or `NewHex`) to modify the color with `Lighten` or `Tint`, etc.
+透過 `noire.NewRGB`（或是 `NewHex` 等）來初始化一個顏色，並且透過 `Lighten` 或 `Tint` 等函式開始編輯該色彩。
 
 ```go
 package main
@@ -94,200 +94,200 @@ import (
 
 func main() {
 	c := noire.NewRGB(255, 255, 255)
-	fmt.Println(c.Invert().Hex())       // Output: 000000
-	fmt.Println(c.Invert().HTML())      // Output: Black
-	fmt.Println(c.Lighten(1).RGB())     // Output: 255, 255, 255
+	fmt.Println(c.Invert().Hex())       // 輸出：000000
+	fmt.Println(c.Invert().HTML())      // 輸出：Black
+	fmt.Println(c.Lighten(1).RGB())     // 輸出：255, 255, 255
 }
 ```
 
-## Description
+## 函式說明
 
-There are few functions results cannot be visualized, so make sure to check the [GoDoc](https://godoc.org/github.com/teacat/noire) to see how they work.
+這裡有些函式無法透過圖表說明他們的用途，但這些你都能夠在超讚的 [GoDoc](https://godoc.org/github.com/teacat/noire) 裡面看到如何使用他們。
 
--   `Hue`: Get the Hue angle of the current color based on the HSL algorithm.
--   `Saturation`: Get the Saturation of the current color based on the HSL algorithm.
--   `Lightness`： Get the Lightness of the current color based on the HSL algorithm.
--   `LuminanaceWCAG`：Get the Luminance of the current color based on the WCAG 2.0 algorithm.
--   `Luminanace`: Get the Luminance of the current color.
--   `Contrast`: Get the Contrast of the current color based on the WCAG Luminance algorithm.
--   `IsLight`: Returns true if the color is a light scheme, it might not be the same as what human eyes can see.
--   `IsDark`: Returns true if the color is a dark scheme, it might not be the same as what human eyes can see.
+-   `Hue`：取得基於 HSL 演算法的色相角度值。
+-   `Saturation`：會取得基於 HSL 演算法的飽和百分比。
+-   `Lightness`：取得基於 HSL 演算法的明亮百分比。
+-   `LuminanaceWCAG`：取得目前顏色基於 WCAG 2.0 演算法的流明度。
+-   `Luminanace`：取得目前顏色的流明度。
+-   `Contrast`：透過 WCAG 流明度演算法算出與指定顏色的對比度。
+-   `IsLight`：得知顏色是否為亮色，但有些時候這可能與肉眼所見的不相符。
+-   `IsDark`：得知顏色是否為暗色，但有些時候這可能與肉眼所見的不相符。
 
-### Lighten
+### 加亮（Lighten）
 
-![Result preview](./assets/lighten.png)
+![顏色示意圖](./assets/lighten.png)
 
-Lighten a color based on HSL mode, it might makes the color a bit way too bright or washed out.
+以 HSL 的模式提高顏色的亮度，但這有可能會過於明亮。
 
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Lighten(0.15).Hex())   // Output: EAADC2
+	fmt.Println(c.Lighten(0.15).Hex())   // 輸出：EAADC2
 }
 ```
 
-### Brighten
+### 明亮（Brighten）
 
-![Result preview](./assets/brighten.png)
+![顏色示意圖](./assets/brighten.png)
 
-Increases the brightness of the color based on RGB mode.
+以 RGB 的模式提高顏色的亮度。
 
 ```go
 func main() {
 	c := NewRGB(0, 0, 0)
-	fmt.Println(c.Brighten(0.1).Hex())   // Output: 1A1A1A
+	fmt.Println(c.Brighten(0.1).Hex())   // 輸出：1A1A1A
 }
 ```
 
-### Tint
+### 混和加亮（Tint）
 
-![Result preview](./assets/tint.png)
+![顏色示意圖](./assets/tint.png)
 
-Mixing with a white color as base to get the best balance to increase the brightness of a color.
+將目前顏色混上白色以達到最佳平衡與飽和來提高顏色亮度。
 
 ```go
 func main() {
 	c := NewRGB(0, 0, 0)
-	fmt.Println(c.Tint(0.1).Hex())   // Output: 1A1A1A
+	fmt.Println(c.Tint(0.1).Hex())   // 輸出：1A1A1A
 }
 ```
 
-### Darken
+### 調暗（Darken）
 
-![Result preview](./assets/darken.png)
+![顏色示意圖](./assets/darken.png)
 
-Darken a color based on HSL mode, it might makes the color a bit way too dark or dimmed.
+以 HSL 的模式降低顏色的亮度，但這有可能會過於暗沉。
 
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Darken(0.15).Hex())   // Output: CB3366
+	fmt.Println(c.Darken(0.15).Hex())   // 輸出：CB3366
 }
 ```
 
-### Shade
+### 混和調暗（Shade）
 
-![Result preview](./assets/shade.png)
+![顏色示意圖](./assets/shade.png)
 
-Mixing with a black color as base to get the best balance to increase the brightness of a color.
+將目前顏色混上黑色以達到最佳平衡與飽和來降低顏色亮度。
 
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Shade(0.15).Hex())   // Output: BA5F7E
+	fmt.Println(c.Shade(0.15).Hex())   // 輸出：BA5F7E
 }
 ```
 
-### Saturate
+### 提高飽和度（Saturate）
 
-![Result preview](./assets/saturate.png)
+![顏色示意圖](./assets/saturate.png)
 
-Increases the saturation of the color based on HSL mode.
+以 HSL 的模式提高顏色的飽和度。
 
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Saturate(0.5).Hex())   // Output: FF4C88
+	fmt.Println(c.Saturate(0.5).Hex())   // 輸出：FF4C88
 }
 ```
 
-### Desaturate
+### 降低飽和度（Desaturate）
 
-![Result preview](./assets/desaturate.png)
+![顏色示意圖](./assets/desaturate.png)
 
-Decreases the saturation of the color based on HSL mode.
+以 HSL 的模式降低顏色的飽和度。
 
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Desaturate(0.15).Hex())   // Output: AE9DA3
+	fmt.Println(c.Desaturate(0.15).Hex())   // 輸出：AE9DA3
 }
 ```
 
-### AdjustHue
+### 更改色相角度（AdjustHue）
 
-![Result preview](./assets/adjust-hue.png)
+![顏色示意圖](./assets/adjust-hue.png)
 
-Rotates the Hue angle of the color based on HSL mode, it still goes clockwise if the value was set over than 360 degree.
+以 HSL 的模式旋轉色相角度，當超過 360 度時會繼續以順時針旋轉。
 
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.AdjustHue(30).Hex())   // Output: DB8270
+	fmt.Println(c.AdjustHue(30).Hex())   // 輸出：DB8270
 }
 ```
 
-### Mix
+### 混合（Mix）
 
-![Result preview](./assets/mix.png)
+![顏色示意圖](./assets/mix.png)
 
-Mixing two colors with a value that specified the weight of the second color.
+將顏色與另一個顏色混合，並且自訂第二顏色的混色權重。
 
 ```go
 func main() {
 	c1 := NewHex("F00")
 	c2 := NewHex("00F")
-	fmt.Println(c1.Mix(c2, 0.5).HTML())   // Output: Purple
+	fmt.Println(c1.Mix(c2, 0.5).HTML())   // 輸出：Purple
 }
 ```
 
-### Invert
+### 反相色（Invert）
 
-![Result preview](./assets/invert.png)
+![顏色示意圖](./assets/invert.png)
 
-Get the opposite color that based on the RGB color map (it's not a complementary color).
+取得 RGB 顏色在絕對座標上的相反位置，並將整個顏色反轉（不是互補色但趨近於）。
 
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Invert().Hex())   // Output: 248F6B
+	fmt.Println(c.Invert().Hex())   // 輸出：248F6B
 }
 ```
 
-### Complement
+### 互補色（Complement）
 
-![Result preview](./assets/complement.png)
+![顏色示意圖](./assets/complement.png)
 
-Get the complementary color of the current color, same as `AdjustHue(180)`.
+取得顏色的互補色（色相環的對面色），相當於 `AdjustHue(180)`。
 
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Complement().Hex())   // Output: 70DBB7
+	fmt.Println(c.Complement().Hex())   // 輸出：70DBB7
 }
 ```
 
-### Grayscale
+### 灰階（Grayscale）
 
-![Result preview](./assets/grayscale.png)
+![顏色示意圖](./assets/grayscale.png)
 
-Converts the color to grayscale, same as `Desaturate(1)`.
+將顏色轉換成灰階色調，相當於 `Desaturate(1)`。
 
 ```go
 func main() {
 	c := NewRGB(219, 112, 148)
-	fmt.Println(c.Grayscale().Hex())   // Output: A5A5A5
+	fmt.Println(c.Grayscale().Hex())   // 輸出：A5A5A5
 }
 ```
 
-### Foreground
+### 前景色（Foreground）
 
-![Result preview](./assets/foreground.png)
+![顏色示意圖](./assets/foreground.png)
 
-Get the suggested foreground color by calculating the color luminance, it returns a white color when the color is dark, vise versa.
+取得基於目前顏色流明度而推薦的前景文字顏色（黑或白），越暗的背景就會採用白色文字，反之亦然。
 
 ```go
 func main() {
 	c := NewHTML("Green")
-	fmt.Println(c.Foreground().HTML())   // Output: White
+	fmt.Println(c.Foreground().HTML())   // 輸出：White
 	c = NewHTML("Red")
-	fmt.Println(c.Foreground().HTML())   // Output: White
+	fmt.Println(c.Foreground().HTML())   // 輸出：White
 	c = NewHTML("Yellow")
-	fmt.Println(c.Foreground().HTML())   // Output: Black
+	fmt.Println(c.Foreground().HTML())   // 輸出：Black
 }
 ```
 
-## References
+## 可參考文件
 
 [RGB 轉 HSV, HSL (線上色碼轉換 HSL, HSV, RGB, HEX)](https://www.ginifab.com.tw/tools/colors/rgb_to_hsv_hsl.html)
 

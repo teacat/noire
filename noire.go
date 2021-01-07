@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// Color 呈現了一個可供操作與轉換的顏色資料。
+// Color represents a manipulable color.
 type Color struct {
 	Red   float64
 	Green float64
@@ -15,7 +15,7 @@ type Color struct {
 	Alpha float64
 }
 
-// newColor 會回傳一個新的顏色，並且避免 RGB 超過指定範圍。
+// newColor returns a new color.
 func newColor(r float64, g float64, b float64, a float64) Color {
 	if r > 255 {
 		r = 255
@@ -45,9 +45,9 @@ func newColor(r float64, g float64, b float64, a float64) Color {
 	}
 }
 
-// CMYKToRGB 能夠將 CMYK 的顏色以有損的方式轉換成 RGB。
+// CMYKToRGB converts the color from CMYK to RGB with a lossy algorithm.
 //
-// 參考來源：https://www.ginifab.com.tw/tools/colors/js/colorconverter.js
+// reference: https://www.ginifab.com.tw/tools/colors/js/colorconverter.js
 func CMYKToRGB(c float64, m float64, y float64, k float64) (r float64, g float64, b float64) {
 	c = c / 100
 	m = m / 100
@@ -65,9 +65,9 @@ func CMYKToRGB(c float64, m float64, y float64, k float64) (r float64, g float64
 	return
 }
 
-// RGBToCMYK 能夠將 RGB 的顏色以有損的方式轉換成 CMYK。
+// RGBToCMYK converts the color from RGB to CMYK with a lossy algorithm.
 //
-// 參考來源：https://www.ginifab.com.tw/tools/colors/js/colorconverter.js
+// reference: https://www.ginifab.com.tw/tools/colors/js/colorconverter.js
 func RGBToCMYK(r float64, g float64, b float64) (c float64, m float64, y float64, k float64) {
 	r = r / 255
 	g = g / 255
@@ -91,9 +91,9 @@ func RGBToCMYK(r float64, g float64, b float64) (c float64, m float64, y float64
 	return
 }
 
-// HueToRGB 能夠以明亮色相顏色轉換成 RGB。
+// HueToRGB converts the color from Hue to RGB.
 //
-// 參考來源：https://www.ginifab.com.tw/tools/colors/js/colorconverter.js
+// reference: https://www.ginifab.com.tw/tools/colors/js/colorconverter.js
 func HueToRGB(p float64, q float64, t float64) float64 {
 
 	if t < 0 {
@@ -114,9 +114,9 @@ func HueToRGB(p float64, q float64, t float64) float64 {
 	return p
 }
 
-// RGBToHSL 能夠將 RGB 的顏色以有損的方式轉換成 HSL。
+// RGBToHSL converts the color from RGB to HSL with a lossy algorithm.
 //
-// 參考來源：https://www.ginifab.com.tw/tools/colors/js/colorconverter.js
+// reference: https://www.ginifab.com.tw/tools/colors/js/colorconverter.js
 func RGBToHSL(r float64, g float64, b float64) (h float64, s float64, l float64) {
 	r = r / 255
 	g = g / 255
@@ -158,9 +158,9 @@ func RGBToHSL(r float64, g float64, b float64) (h float64, s float64, l float64)
 	return
 }
 
-// HSLToRGB 能夠將 HSL 的顏色以有損的方式轉換成 RGB。
+// HSLToRGB converts the color from HSL to RGB with a lossy algorithm.
 //
-// 參考來源：https://www.ginifab.com.tw/tools/colors/js/colorconverter.js
+// reference: https://www.ginifab.com.tw/tools/colors/js/colorconverter.js
 func HSLToRGB(h float64, s float64, l float64) (r float64, g float64, b float64) {
 	h = h / 360
 	s = s / 100
@@ -188,9 +188,9 @@ func HSLToRGB(h float64, s float64, l float64) (r float64, g float64, b float64)
 	return
 }
 
-// HSVToRGB 能夠將 HSV 的顏色以有損的方式轉換成 RGB。
+// HSVToRGB converts the color from HSV to RGB with a lossy algorithm.
 //
-// 參考來源：https://www.rapidtables.com/convert/color/hsv-to-rgb.html
+// reference: https://www.rapidtables.com/convert/color/hsv-to-rgb.html
 func HSVToRGB(h float64, s float64, v float64) (r float64, g float64, b float64) {
 	s = s / 100
 	v = v / 100
@@ -226,9 +226,9 @@ func HSVToRGB(h float64, s float64, v float64) (r float64, g float64, b float64)
 	return
 }
 
-// RGBToHSV 能夠將 RGB 的顏色以有損的方式轉換成 HSV。
+// RGBToHSV converts the color from RGB to HSV with a lossy algorithm.
 //
-// 參考來源：https://www.ginifab.com.tw/tools/colors/js/colorconverter.js
+// reference: https://www.ginifab.com.tw/tools/colors/js/colorconverter.js
 func RGBToHSV(r float64, g float64, b float64) (h float64, s float64, v float64) {
 	r = r / 255
 	g = g / 255
@@ -273,14 +273,13 @@ func RGBToHSV(r float64, g float64, b float64) (h float64, s float64, v float64)
 	return
 }
 
-// RGBToHex 能夠將 RGB 的顏色轉換成 Hex 十六進制字串（不包含 `#` 井字符號）。
-// 出來的十六進制英文字母必定是大寫。
+// RGBToHex converts the color from RGB to a uppercased Hex string (without the `#` prefix).
 func RGBToHex(r float64, g float64, b float64) string {
 	h := []byte{uint8(math.Round(r)), uint8(math.Round(g)), uint8(math.Round(b))}
 	return strings.ToUpper(hex.EncodeToString(h))
 }
 
-// HexToRGB 能夠將 Hex 十六進制字串（任意包含 `#` 井字符號或 3 字縮寫）轉換成 RGB。
+// HexToRGB converts the Hex string (can be `#` prefixed or either a 3 characters shorthand) to RGB.
 func HexToRGB(h string) (r float64, g float64, b float64) {
 	if string(h[0]) == "#" {
 		h = h[1:]
@@ -295,7 +294,7 @@ func HexToRGB(h string) (r float64, g float64, b float64) {
 	return
 }
 
-// HTMLToRGB 能夠將 HTML 的網頁顏色名稱或十六進制色彩（任意包含 `#` 井字符號或 3 字縮寫）轉換成 RGB。
+// HTMLToRGB converts the color from HTML color name or a Hex string (can be `#` prefixed or either a 3 characters shorthand) to RGB.
 func HTMLToRGB(h string) (r float64, g float64, b float64) {
 	if string(h[0]) == "#" {
 		h = h[1:]
@@ -313,7 +312,7 @@ func HTMLToRGB(h string) (r float64, g float64, b float64) {
 	return
 }
 
-// RGBToHTML 能夠將 RGB 的顏色轉換成網頁的顏色名稱（如：`Red`、`White`）或帶有井字號的十六進制色彩。
+// RGBToHTML converts the color from RGB to a `#` prefixed Hex string if it doesn't have a HTML color name.
 func RGBToHTML(r float64, g float64, b float64) (h string) {
 	h = RGBToHex(r, g, b)
 	v, ok := hexNames[h]
@@ -325,77 +324,77 @@ func RGBToHTML(r float64, g float64, b float64) (h string) {
 	return
 }
 
-// NewHTML 會初始化一個基於 HTML 的顏色資訊。
+// NewHTML initializes a color based on the HTML color name.
 func NewHTML(color string) Color {
 	r, g, b := HTMLToRGB(color)
 	return newColor(r, g, b, 1)
 }
 
-// NewHTMLA 會初始化一個基於 HTML 且帶有 Alpha 的顏色資訊。
+// NewHTMLA initializes a color based on the HTML color name with an alpha channel.
 func NewHTMLA(color string, a float64) Color {
 	r, g, b := HTMLToRGB(color)
 	return newColor(r, g, b, a)
 }
 
-// NewHex 會初始化一個基於 Hex 的顏色資訊。
+// NewHex initializes a color based on a Hex string.
 func NewHex(color string) Color {
 	r, g, b := HexToRGB(color)
 	return newColor(r, g, b, 1)
 }
 
-// NewHexA 會初始化一個基於 Hex 且帶有 Alpha 的顏色資訊。
+// NewHexA initializes a color based on a Hex string with an alpha channel.
 func NewHexA(color string, a float64) Color {
 	r, g, b := HexToRGB(color)
 	return newColor(r, g, b, a)
 }
 
-// NewHSL 會初始化一個基於 HSL 的顏色資訊。
+// NewHSL initializes a color based on HSL.
 func NewHSL(h float64, s float64, l float64) Color {
 	r, g, b := HSLToRGB(h, s, l)
 	return newColor(r, g, b, 1)
 }
 
-// NewHSLA 會初始化一個基於 HSL 且帶有 Alpha 的顏色資訊。
+// NewHSLA initializes a color based on HSL with an alpha channel.
 func NewHSLA(h float64, s float64, l float64, a float64) Color {
 	r, g, b := HSLToRGB(h, s, l)
 	return newColor(r, g, b, a)
 }
 
-// NewHSV 會初始化一個基於 HSV 的顏色資訊。
+// NewHSV initializes a color based on HSV.
 func NewHSV(h float64, s float64, v float64) Color {
 	r, g, b := HSVToRGB(h, s, v)
 	return newColor(r, g, b, 1)
 }
 
-// NewHSVA 會初始化一個基於 HSV 且帶有 Alpha 的顏色資訊。
+// NewHSVA initializes a color based on HSV with an alpha channel.
 func NewHSVA(h float64, s float64, v float64, a float64) Color {
 	r, g, b := HSVToRGB(h, s, v)
 	return newColor(r, g, b, a)
 }
 
-// NewRGB 會初始化一個基於 RGB 的顏色資訊。
+// NewRGB initializes a color based on RGB.
 func NewRGB(r float64, g float64, b float64) Color {
 	return newColor(r, g, b, 1)
 }
 
-// NewRGBA 會初始化一個基於 RGB 且帶有 Alpha 的顏色資訊。
+// NewRGBA initializes a color based on RGB with an alpha channel.
 func NewRGBA(r float64, g float64, b float64, a float64) Color {
 	return newColor(r, g, b, a)
 }
 
-// NewCMYK 會初始化一個基於 CMYK 的顏色資訊。
+// NewCMYK initializes a color based on CMYK.
 func NewCMYK(c float64, m float64, y float64, k float64) Color {
 	r, g, b := CMYKToRGB(c, m, y, k)
 	return newColor(r, g, b, 1)
 }
 
-// NewCMYKA 會初始化一個基於 CMYK 且帶有 Alpha 的顏色資訊。
+// NewCMYKA initializes a color based on CMYK with an alpha channel.
 func NewCMYKA(c float64, m float64, y float64, k float64, a float64) Color {
 	r, g, b := CMYKToRGB(c, m, y, k)
 	return newColor(r, g, b, a)
 }
 
-// Mix 會將傳入的兩個顏色混合在一起，並且透過權重表示後者混入顏色的佔比（`0.5` 即為 `50%`）。
+// Mix mixs both color with the specified weight of the second color. (`0.5` as `50%`)
 func (c Color) Mix(color Color, weight float64) Color {
 	oWeight := 1 - weight
 	r := math.Round(oWeight*c.Red + weight*color.Red)
@@ -405,25 +404,25 @@ func (c Color) Mix(color Color, weight float64) Color {
 	return newColor(r, g, b, a)
 }
 
-// Hue 會取得基於 HSL 演算法的色相角度值。
+// Hue returns the Hue angle of the current color based on the HSL algorithm.
 func (c Color) Hue() float64 {
 	h, _, _ := c.HSL()
 	return h
 }
 
-// Saturation 會取得基於 HSL 演算法的飽和百分比。
+// Saturation returns the percentage of the current color saturation based on the HSL algorithm.
 func (c Color) Saturation() float64 {
 	_, s, _ := c.HSL()
 	return s
 }
 
-// Lightness 會取得基於 HSL 演算法的明亮百分比。
+// Lightness returns the Lightness of the current color based on the HSL algorithm.
 func (c Color) Lightness() float64 {
 	_, _, l := c.HSL()
 	return l
 }
 
-// AdjustHue 會以角度旋轉基於 HSL 演算法的色相角度。
+// AdjustHue rotates the Hue angle of the color based on HSL mode, it still goes clockwise if the value was set over than 360 degree.
 func (c Color) AdjustHue(degrees float64) Color {
 	h, s, l := c.HSL()
 	h += degrees
@@ -441,7 +440,7 @@ func (c Color) AdjustHue(degrees float64) Color {
 	return newColor(r, g, b, c.Alpha)
 }
 
-// Lighten 會以小數點百分比率（`0.5` 即為 `50%`）將基於 HSL 演算法的亮度提高。
+// Lighten increases the brightness of the color based on HSL mode. (`0.5` as `50%`)
 func (c Color) Lighten(percent float64) Color {
 	percent = percent * 100
 	h, s, l := c.HSL()
@@ -453,7 +452,7 @@ func (c Color) Lighten(percent float64) Color {
 	return newColor(r, g, b, c.Alpha)
 }
 
-// Darken 會以小數點百分比率（`0.5` 即為 `50%`）將基於 HSL 演算法的亮度降低。
+// Darken decreases the brightness of the color based on HSL mode. (`0.5` as `50%`)
 func (c Color) Darken(percent float64) Color {
 	percent = percent * 100
 	h, s, l := c.HSL()
@@ -465,7 +464,7 @@ func (c Color) Darken(percent float64) Color {
 	return newColor(r, g, b, c.Alpha)
 }
 
-// Saturate 會以小數點百分比率（`0.5` 即為 `50%`）將基於 HSL 演算法的飽和度提高。
+// Saturate increases the saturation of the color based on HSL mode. (`0.5` as `50%`)
 func (c Color) Saturate(percent float64) Color {
 	percent = percent * 100
 	h, s, l := c.HSL()
@@ -477,7 +476,7 @@ func (c Color) Saturate(percent float64) Color {
 	return newColor(r, g, b, c.Alpha)
 }
 
-// Desaturate 會以小數點百分比率（`0.5` 即為 `50%`）將基於 HSL 演算法的飽和度降低。
+// Desaturate decreases the saturation of the color based on HSL mode. (`0.5` as `50%`)
 func (c Color) Desaturate(percent float64) Color {
 	percent = percent * 100
 	h, s, l := c.HSL()
@@ -489,27 +488,27 @@ func (c Color) Desaturate(percent float64) Color {
 	return newColor(r, g, b, c.Alpha)
 }
 
-// Grayscale 會將顏色轉換成灰階色調，相當於 `Desaturate(1)`。
+// Grayscale converts the color to grayscale, same as `Desaturate(1)`.
 func (c Color) Grayscale() Color {
 	return c.Desaturate(1)
 }
 
-// Complement 會取得顏色的互補色（色相環的對面色），相當於 `AdjustHue(180)`。
+// Complement returns the complementary color of the current color, same as `AdjustHue(180)`.
 func (c Color) Complement() Color {
 	return c.AdjustHue(180)
 }
 
-// Tint 會以小數點百分比率（`0.5` 即為 `50%`）將顏色盡可能地保持原色調的方式加亮，相當於基於白色的 `Mix`。
+// Tint increases the brightness of the color while keeping the color tone, same as `Mix` with a white color. (`0.5` as `50%`)
 func (c Color) Tint(percent float64) Color {
 	return c.Mix(newColor(255, 255, 255, c.Alpha), percent)
 }
 
-// Shade 會以小數點百分比率（`0.5` 即為 `50%`）將顏色盡可能地保持原色調的方式變暗，相當於基於黑色的 `Mix`。
+// Shade decreases the brightness of the color while keeping the color tone, same as `Mix` with a black color. (`0.5` as `50%`)
 func (c Color) Shade(percent float64) Color {
 	return c.Mix(newColor(0, 0, 0, c.Alpha), percent)
 }
 
-// Invert 會取得 RGB 顏色在絕對座標上的相反位置，並將整個顏色反轉（不是互補色但趨近於）。
+// Invert returns the opposite color that based on the RGB color map (it's not a complementary color).
 func (c Color) Invert() Color {
 	r, g, b := c.RGB()
 	r = 255 - r
@@ -518,11 +517,11 @@ func (c Color) Invert() Color {
 	return newColor(r, g, b, c.Alpha)
 }
 
-// LuminanaceWCAG 能夠取得目前顏色基於 WCAG 2.0 演算法的流明度。
+// LuminanaceWCAG returns the Luminance of the the current color based on the WCAG 2.0 algorithm.
 //
-// 參考連結：https://www.w3.org/TR/WCAG20-TECHS/G17.html#G17-tests
+// reference: https://www.w3.org/TR/WCAG20-TECHS/G17.html#G17-tests
 //
-// 參考連結：https://medium.com/dev-channel/using-sass-to-automatically-pick-text-colors-4ba7645d2796
+// reference: https://medium.com/dev-channel/using-sass-to-automatically-pick-text-colors-4ba7645d2796
 func (c Color) LuminanaceWCAG() float64 {
 	rgb := []float64{c.Red, c.Green, c.Blue}
 	for k, v := range rgb {
@@ -538,20 +537,19 @@ func (c Color) LuminanaceWCAG() float64 {
 	return math.Round(v*100) / 100
 }
 
-// Luminanace 能夠取得目前顏色的流明度。
+// Luminanace returns the Luminance of the current color.
 //
-// 參考連結：https://en.wikipedia.org/wiki/Relative_luminance
+// reference: https://en.wikipedia.org/wiki/Relative_luminance
 //
-// 參考連結：https://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color
+// reference: https://stackoverflow.com/questions/596216/formula-to-determine-brightness-of-rgb-color
 //
-// 參考連結：https://stackoverflow.com/questions/3116260/given-a-background-color-how-to-get-a-foreground-color-that-makes-it-readable-o
+// reference: https://stackoverflow.com/questions/3116260/given-a-background-color-how-to-get-a-foreground-color-that-makes-it-readable-o
 func (c Color) Luminanace() float64 {
 	v := 0.2126*c.Red + 0.7152*c.Green + 0.0722*c.Blue
 	return math.Round(v*100) / 100
 }
 
-// Foreground 能夠取得基於目前顏色流明度而推薦的前景文字顏色（黑或白），
-// 越暗的背景就會採用白色文字，反之亦然。
+// Foreground returns suggested foreground color by calculating the color luminance, it returns a white color when the color is dark, vise versa.
 func (c Color) Foreground() Color {
 	white := NewRGB(255, 255, 255)
 	black := NewRGB(0, 0, 0)
@@ -561,9 +559,9 @@ func (c Color) Foreground() Color {
 	return black
 }
 
-// Brighten 會以小數點百分比率（`0.5` 即為 `50%`）將顏色加亮。
+// Brighten increases the brightness of the color. (`0.5` as `50%`)
 //
-// 參考連結：https://github.com/ozdemirburak/iris
+// reference: https://github.com/ozdemirburak/iris
 func (c Color) Brighten(percent float64) Color {
 	percent *= -100
 	r := math.Max(0, math.Min(255, c.Red-math.Round(255*(percent/100))))
@@ -572,7 +570,7 @@ func (c Color) Brighten(percent float64) Color {
 	return newColor(r, g, b, c.Alpha)
 }
 
-// Contrast 會透過 WCAG 流明度演算法算出與指定顏色的對比度。
+// Contrast returns the Contrast of the current color based on the WCAG Luminance algorithm.
 func (c Color) Contrast(color Color) float64 {
 	c1 := c.LuminanaceWCAG() + 0.05
 	c2 := color.LuminanaceWCAG() + 0.05
@@ -580,61 +578,61 @@ func (c Color) Contrast(color Color) float64 {
 	return math.Round(v*100) / 100
 }
 
-// IsLight 會表示此顏色是否為亮色，但有些時候這可能與肉眼所見的不相符。
+// IsLight returns true if the color is a light scheme, it might not be the same as what human eyes can see.
 func (c Color) IsLight() bool {
 	darkness := 1 - (0.299*c.Red+0.587*c.Green+0.114*c.Blue)/255
 	return darkness < 0.5
 }
 
-// IsDark 會表示此顏色是否為暗色，但有些時候這可能與肉眼所見的不相符。
+// IsDark returns true if the color is a dark scheme, it might not be the same as what human eyes can see.
 func (c Color) IsDark() bool {
 	return !c.IsLight()
 }
 
-// HSV 會將目前的顏色以 HSV 格式回傳。
+// HSV returns the HSV value of the current color.
 func (c Color) HSV() (float64, float64, float64) {
 	return RGBToHSV(c.Red, c.Green, c.Blue)
 }
 
-// HSVA 會將目前的顏色以 HSVA 格式回傳。
+// HSVA returns the HSVA value of the current color.
 func (c Color) HSVA() (float64, float64, float64, float64) {
 	h, s, v := RGBToHSV(c.Red, c.Green, c.Blue)
 	return h, s, v, c.Alpha
 }
 
-// HSL 會將目前的顏色以 HSL 格式回傳。
+// HSL returns the HSL value of the current color.
 func (c Color) HSL() (float64, float64, float64) {
 	return RGBToHSL(c.Red, c.Green, c.Blue)
 }
 
-// HSLA 會將目前的顏色以 HSLA 格式回傳。
+// HSLA returns the HSLA value of the current color.
 func (c Color) HSLA() (float64, float64, float64, float64) {
 	h, s, l := RGBToHSL(c.Red, c.Green, c.Blue)
 	return h, s, l, c.Alpha
 }
 
-// RGB 會將目前的顏色以 RGB 格式回傳。
+// RGB returns the RGB value of the current color.
 func (c Color) RGB() (float64, float64, float64) {
 	return c.Red, c.Green, c.Blue
 }
 
-// RGBA 會將目前的顏色以 RGBA 格式回傳。
+// RGBA returns the RGBA value of the current color.
 func (c Color) RGBA() (float64, float64, float64, float64) {
 	return c.Red, c.Green, c.Blue, c.Alpha
 }
 
-// CMYK 會將目前的顏色以 CMYK 格式回傳。
+// CMYK returns the CMYK value of the current color.
 func (c Color) CMYK() (float64, float64, float64, float64) {
 	return RGBToCMYK(c.Red, c.Green, c.Blue)
 }
 
-// Hex 會將目前的顏色以 Hex 十六進制字串回傳（不帶有 `#` 井字符號）。
+// Hex returns a Hex string of the current color. (Without the `#` prefix)
 func (c Color) Hex() string {
 	return RGBToHex(c.Red, c.Green, c.Blue)
 }
 
-// HTML 會將目前的顏色轉換成帶 `#` 井字符號的色彩代碼，如果該色彩與某個網頁色彩名稱相等，則會轉換成網頁色彩名稱（如：`red`、`yellow`）。
-// 如果該顏色帶有 Alpha 透明通道，那麼將會轉譯成 `rgba(x, x, x, x)` 的字串格式。
+// HTML returns a `#` prefixed Hex string or the HTML color name (like: `red`, `yellow`) if it had one.
+// It returns a format with `rgba()` if the color comes with a alpha channel.
 func (c Color) HTML() string {
 	if c.Alpha != 1 {
 		return fmt.Sprintf("rgba(%f, %f, %f, %f)", c.Red, c.Green, c.Blue, c.Alpha)
